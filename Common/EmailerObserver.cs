@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 
 namespace Common
@@ -12,7 +13,10 @@ namespace Common
         }
         public void Update(DataGatherer t)
         {
-            Console.WriteLine(this.GetName() + " received message: " + t.GetMessage() + " from " + t.Name);
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings[_name + "Pref"]))
+            {
+                Console.WriteLine(this.GetName() + " received message: " + t.GetMessage() + " from " + t.Name);
+            }
         }
         public string GetName()
         {

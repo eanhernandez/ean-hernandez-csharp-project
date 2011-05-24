@@ -21,6 +21,8 @@ namespace CSVEater
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new EmailerObserver());
             rtm.Attach(new ScreenPrinterObserver());
+            rtm.SetMessage("kicking off eater");
+            rtm.Notify();
 
             Socket mdpSocket = CommsTools.SetUpMCastSendSocket();
             IPEndPoint mcastEp = new IPEndPoint(IPAddress.Parse("224.5.6.7"),

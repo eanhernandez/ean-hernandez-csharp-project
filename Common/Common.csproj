@@ -41,10 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
-    <Compile Include="ITradingEngineUpdateObserver.cs" />
+    <Compile Include="EmailerObserver.cs" />
+    <Compile Include="IObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RtmTradingEngineUpdateObserver.cs" />
-    <Compile Include="TradingEngineDataGatherer.cs" />
+    <Compile Include="LoggerObserver.cs" />
+    <Compile Include="DataGatherer.cs" />
+    <Compile Include="RtmDataGatherer.cs" />
+    <Compile Include="ScreenPrinterObserver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

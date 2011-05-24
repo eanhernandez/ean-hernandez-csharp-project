@@ -16,8 +16,14 @@ namespace CSVEater
 		{
             string line;
             
+            // create a real time monitor, attach to logger, emailer, screen printer
+            Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
+            rtm.Attach(new LoggerObserver());
+            rtm.Attach(new EmailerObserver());
+            rtm.Attach(new ScreenPrinterObserver());
+
             Socket mdpSocket = CommsTools.SetUpMCastSendSocket();
-            IPEndPoint mcastEP = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
+            IPEndPoint mcastEp = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
                 Convert.ToInt32(ConfigurationManager.AppSettings["send_port"]));
 
             Console.WriteLine("CSV Eater Service Started - (Sending Using MultiCast)");
@@ -30,12 +36,12 @@ namespace CSVEater
             while ((line = streamReader.ReadLine()) != null)
             {
                 Console.WriteLine("sending: " + line.ToString());
-                CommsTools.SendMCastData(line.ToString(), mdpSocket, mcastEP);
+                CommsTools.SendMCastData(line.ToString(), mdpSocket, mcastEp);
 
                 Thread.Sleep(Convert.ToInt32(ConfigurationManager.AppSettings["order_send_delay"]));
             }
             // telling receiver we're all done
-            CommsTools.SendMCastData("-1,-1,-1,-1,-1", mdpSocket, mcastEP);  // send quit signal
+            CommsTools.SendMCastData("-1,-1,-1,-1,-1", mdpSocket, mcastEp);  // send quit signal
             Console.WriteLine("reached end of file, sent quit signal");
             mdpSocket.Close();
             Console.ReadLine();

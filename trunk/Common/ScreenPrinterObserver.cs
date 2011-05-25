@@ -13,8 +13,7 @@ namespace Common
         }
         public void Update(DataGatherer t)
         {
-            bool b = Convert.ToBoolean(ConfigurationManager.AppSettings["ScreenPrinterPref"]);
-            if (b)
+            if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
             {
                 Console.WriteLine(this.GetName() + " received message: " + t.GetMessage() + " from " + t.Name);
             }

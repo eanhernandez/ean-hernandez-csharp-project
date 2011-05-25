@@ -13,7 +13,7 @@ namespace Common
         }
         public void Update(DataGatherer t)
         {
-            if (Convert.ToBoolean(ConfigurationManager.AppSettings[_name + "Pref"]))
+            if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
             {
                 Console.WriteLine(this.GetName() + " received message: " + t.GetMessage() + " from " + t.Name);
             }

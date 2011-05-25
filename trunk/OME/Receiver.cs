@@ -30,7 +30,12 @@ namespace OME
             Socket mdcSocket = CommsTools.setUpMcastListenSocket(
                 Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
 
-            
+            Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
+            rtm.Attach(new LoggerObserver());
+            rtm.Attach(new EmailerObserver());
+            rtm.Attach(new ScreenPrinterObserver());
+            rtm.SetMessage("kicking off OME");
+            rtm.Notify();   
 
             // set up OME
             OME.BizDomain equityDomain = setUpEquityDomain();
@@ -43,7 +48,9 @@ namespace OME
 			    IPEndPoint mdpEndPoint = (IPEndPoint)endPoint;
 			    string mktPrice = Encoding.ASCII.GetString(receiveBuffer,0,bytesReceived);
 			    
-                Console.WriteLine("Order Received : " + mktPrice );
+                //Console.WriteLine("Order Received : " + mktPrice );
+                rtm.SetMessage("Order Received : " + mktPrice);
+                rtm.Notify();
                 
                 var array = mktPrice.Split(',');
                 if (array[0] == "-1") { break; } // quit signal
@@ -51,9 +58,6 @@ namespace OME
                 equityDomain.SubmitOrder("MSFT", new EquityMatchingEngine.EquityOrder(
                     array[0], array[1], array[2], Convert.ToDouble(array[3]), 
                     Convert.ToInt32(array[4])));
-
-                //equityDomain.OrderBook.Containers
-                //CommsTools.SendMCastData(mktPrice, tickerSocket, tickerEP);
             }
 
 			mdcSocket.Close();

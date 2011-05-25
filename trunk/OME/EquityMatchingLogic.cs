@@ -1,4 +1,5 @@
 using System;
+using Common;
 using OME;
 using OME.Storage;
 using System.Collections;
@@ -58,13 +59,25 @@ namespace EquityMatchingEngine
                     int sold_last_trade = original_buy_quantity - e.Order.Quantity;
 
                     // (eh) to show trades as they occur
-                    Console.WriteLine("Match Buy found..Generate Trade:" +
+                    //Console.WriteLine("Match Buy found..Generate Trade:" +
+                    //" buy " +
+                    //curOrder.Instrument + " " +
+                    //sold_last_trade + " @" +
+                    //e.Order.Price
+                    //curOrder.Price
+                    // );
+                    Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
+                    rtm.Attach(new LoggerObserver());
+                    rtm.Attach(new EmailerObserver());
+                    rtm.Attach(new ScreenPrinterObserver());
+                    rtm.SetMessage("Match Buy found..Generate Trade:" +
                     " buy " +
                     curOrder.Instrument + " " +
                     sold_last_trade + " @" +
                     //e.Order.Price
-                    curOrder.Price
-                    );
+                    curOrder.Price);
+                    rtm.Notify();
+
                     //assign the remaining quantity to buy order
                     
 

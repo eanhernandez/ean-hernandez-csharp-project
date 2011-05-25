@@ -22,7 +22,13 @@ namespace Ticker
                 int bytesReceived = mdcSocket.ReceiveFrom(receiveBuffer, ref endPoint);
                 IPEndPoint mdpEndPoint = (IPEndPoint)endPoint;
                 string s = Encoding.ASCII.GetString(receiveBuffer, 0, bytesReceived);
-                Console.WriteLine(s);
+                //Console.WriteLine(s);
+                Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
+                rtm.Attach(new LoggerObserver());
+                rtm.Attach(new EmailerObserver());
+                rtm.Attach(new ScreenPrinterObserver());
+                rtm.SetMessage(s);
+                rtm.Notify();
             }
         }
     }

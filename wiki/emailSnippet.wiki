@@ -1,6 +1,6 @@
 #this may be how to send an email in C#
 
-<pre>
+{{{
 MailMessage mail = new MailMessage();
 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
@@ -15,4 +15,4 @@ SmtpServer.EnableSsl = true;
 
 SmtpServer.Send(mail);
 MessageBox.Show("mail Send");
-</pre>
+}}}

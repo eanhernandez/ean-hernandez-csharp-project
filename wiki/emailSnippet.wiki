@@ -1,4 +1,4 @@
-#this may be how to send an email in C#
+== this may be how to send an email in C# ==
 
 {{{
 MailMessage mail = new MailMessage();

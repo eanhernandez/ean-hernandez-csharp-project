@@ -15,7 +15,7 @@ namespace Common
         {
             if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
             {
-                Console.WriteLine(this.GetName() + " received message: " + t.GetMessage() + " from " + t.Name);
+                Console.WriteLine("(sp): " + t.GetMessage() + " from " + t.Name);
             }
         }
         public string GetName()

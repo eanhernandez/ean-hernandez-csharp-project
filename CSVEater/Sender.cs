@@ -19,7 +19,6 @@ namespace CSVEater
             // create a real time monitor, attach to logger, emailer, screen printer
             Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
             rtm.Attach(new LoggerObserver());
-            rtm.Attach(new EmailerObserver());
             rtm.Attach(new ScreenPrinterObserver());
             rtm.SetMessage("kicking off eater");
             rtm.Notify();

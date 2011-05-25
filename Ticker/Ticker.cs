@@ -25,7 +25,6 @@ namespace Ticker
                 //Console.WriteLine(s);
                 Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
                 rtm.Attach(new LoggerObserver());
-                rtm.Attach(new EmailerObserver());
                 rtm.Attach(new ScreenPrinterObserver());
                 rtm.SetMessage(s);
                 rtm.Notify();

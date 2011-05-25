@@ -62,6 +62,7 @@ namespace Common
                 {
                     if (_instance == null)
                     {
+                        Console.WriteLine("making singleton!");
                         _rtmLevel = Convert.ToString(ConfigurationManager.AppSettings["RTMLevel"]);
                         _instance = new MaskSingleton();
                     }

@@ -37,7 +37,10 @@ namespace CSVEater
             
             while ((line = streamReader.ReadLine()) != null)
             {
-                Console.WriteLine("sending: " + line.ToString());
+                //Console.WriteLine("sending: " + line.ToString());
+                rtm.SetMessage("sending: " + line.ToString());
+                rtm.Notify();
+
                 CommsTools.SendMCastData(line.ToString(), mdpSocket, mcastEp);
 
                 Thread.Sleep(Convert.ToInt32(ConfigurationManager.AppSettings["order_send_delay"]));

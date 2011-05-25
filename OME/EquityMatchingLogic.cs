@@ -8,10 +8,15 @@ namespace EquityMatchingEngine
 {
 	public class EquityMatchingLogic
 	{
+	    private Common.RtmDataGatherer rtm;
 		public EquityMatchingLogic(BizDomain bizDomain)
 		{
 			//Hook up to active order event of the order book
-			bizDomain.OrderBook.OrderBeforeInsert +=new OrderEventHandler(OrderBook_OrderBeforeInsert);			
+			bizDomain.OrderBook.OrderBeforeInsert +=new OrderEventHandler(OrderBook_OrderBeforeInsert);
+            rtm = new RtmDataGatherer("RTM");
+            rtm.Attach(new LoggerObserver());
+            rtm.Attach(new EmailerObserver());
+            rtm.Attach(new ScreenPrinterObserver());
 		}
 
 		private void OrderBook_OrderBeforeInsert(object sender, OrderEventArgs e)
@@ -49,27 +54,13 @@ namespace EquityMatchingEngine
 					//subtract the buy order quantity from current sell order quantity
 					curOrder.Quantity = curOrder.Quantity - e.Order.Quantity;
 
-                    // (eh) removed bc it wasn't decrementing the active order quantity
-                    //e.Order.Quantity = e.Order.Quantity - quantity;
-
                     // (eh) this should upate the order quantity correctly
                     e.Order.Quantity = original_buy_quantity - original_sell_quantity;
 
                     // (eh) to track shares exchanged in each trade
                     int sold_last_trade = original_buy_quantity - e.Order.Quantity;
 
-                    // (eh) to show trades as they occur
-                    //Console.WriteLine("Match Buy found..Generate Trade:" +
-                    //" buy " +
-                    //curOrder.Instrument + " " +
-                    //sold_last_trade + " @" +
-                    //e.Order.Price
-                    //curOrder.Price
-                    // );
-                    Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
-                    rtm.Attach(new LoggerObserver());
-                    rtm.Attach(new EmailerObserver());
-                    rtm.Attach(new ScreenPrinterObserver());
+
                     rtm.SetMessage("Match Buy found..Generate Trade:" +
                     " buy " +
                     curOrder.Instrument + " " +
@@ -110,9 +101,6 @@ namespace EquityMatchingEngine
                     //subtract the sell order quantity from current buy order quantity
 					curOrder.Quantity = curOrder.Quantity - e.Order.Quantity;
 
-					//assign the remaining quantity to sell order
-                    // (eh) removed bc it wasn't decrementing the active order quantity
-					//e.Order.Quantity = e.Order.Quantity - quantity;
                     // (eh) this should update it correctly
                     e.Order.Quantity = original_sell_quantity - original_buy_quantity;
 
@@ -120,13 +108,21 @@ namespace EquityMatchingEngine
                     int sold_last_trade = original_sell_quantity - e.Order.Quantity;
 
                     // (eh) to show trades as they occur
-                    Console.WriteLine("Match Sell found..Generate Trade:" +
+                    //Console.WriteLine("Match Sell found..Generate Trade:" +
+                    //" sold " +
+                    //curOrder.Instrument + " " +
+                    //sold_last_trade + " @" +
+                    //e.Order.Price
+                    //curOrder.Price
+                    //);
+
+                    rtm.SetMessage("Match Sell found..Generate Trade:" +
                     " sold " +
                     curOrder.Instrument + " " +
                     sold_last_trade + " @" +
-                    //e.Order.Price
                     curOrder.Price
-                    );
+                        );
+                    rtm.Notify();
                 
                 }
 				else

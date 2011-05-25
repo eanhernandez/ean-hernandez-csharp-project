@@ -40,7 +40,7 @@ namespace OME
             IPEndPoint tickerEP = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
                 Convert.ToInt32(ConfigurationManager.AppSettings["ticker_broadcast_port"]));
             CommsTools.SendMCastData(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP);
-            //Console.WriteLine("top buy/sell = " + topSell + "/" + topBuy);
+
         }
     }
 }

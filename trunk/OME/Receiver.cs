@@ -2,7 +2,6 @@ using System;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
-using OME.Storage;
 using Common;
 using System.Configuration;
 
@@ -27,7 +26,7 @@ namespace OME
             // set up multicast receive
             byte[] receiveBuffer = new byte[512];
 			EndPoint endPoint = new IPEndPoint(IPAddress.Any,0);
-            Socket mdcSocket = CommsTools.setUpMcastListenSocket(
+            Socket mdcSocket = CommsTools.SetUpMcastListenSocket(
                 Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
 
             Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");

@@ -1,7 +1,6 @@
 using System;
 using System.Net.Sockets;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.IO;
 using System.Configuration;
@@ -36,14 +35,23 @@ namespace CSVEater
             
             while ((line = streamReader.ReadLine()) != null)
             {
-                //Console.WriteLine("sending: " + line.ToString());
-                rtm.SetMessage("sending: " + line.ToString());
-                rtm.Notify();
-
-                CommsTools.SendMCastData(line.ToString(), mdpSocket, mcastEp);
-
+                try
+                {
+                    Common.Tools.ValidateOrderRequest(line);
+                    rtm.SetMessage("sending: " + line.ToString()); 
+                    CommsTools.SendMCastData(line.ToString(), mdpSocket, mcastEp);
+                }
+                catch (BadOrderInput e)
+                {
+                    rtm.SetMessage("bad order input, ignoring order: " + line.ToString());
+                }
+                finally
+                {
+                    rtm.Notify();
+                }
                 Thread.Sleep(Convert.ToInt32(ConfigurationManager.AppSettings["order_send_delay"]));
             }
+
             // telling receiver we're all done
             CommsTools.SendMCastData("-1,-1,-1,-1,-1", mdpSocket, mcastEp);  // send quit signal
             Console.WriteLine("reached end of file, sent quit signal");

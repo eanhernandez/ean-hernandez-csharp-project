@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Text;
 
 namespace Common
@@ -15,8 +16,12 @@ namespace Common
         {
             if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
             {
-                Console.WriteLine(this.GetName() + 
-                    " received message: " + t.GetMessage() + " from " + t.Name);
+                StreamWriter w = File.AppendText(
+                    Convert.ToString(ConfigurationManager.AppSettings["logfile"]) + _name + ".log"
+                    );
+                w.WriteLine(this.GetName() + " received message: " + t.GetMessage() + " from " + t.Name);
+                w.Flush();
+                w.Close();
             }
         }
         public string GetName()

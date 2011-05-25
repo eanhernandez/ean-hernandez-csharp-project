@@ -18,15 +18,7 @@ namespace EquityMatchingEngine
 				int timeComp = orderX.TimeStamp.CompareTo(orderY.TimeStamp);
 				return timeComp;
 			}
-			//since the sorting order for buy and sell order book is different
-			//we need to ensure that orders are arranged accordingly
-			//buy order book - highest buy price occupies top position
-			//sell order book - lowest sell price occupies top position
-			//therefore sortingOrder helps to achieve this ranking
-			//a value of -1 sorts order in descending order of price and ascending 
-			//order of time 
-			//similarly value of 1 sorts order in ascending order of price
-			//and ascending order of time
+
 			return priceComp * sortingOrder;
 		}
 

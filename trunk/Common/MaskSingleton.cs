@@ -8,11 +8,11 @@ namespace Common
     public sealed class MaskSingleton
     {
         static MaskSingleton _instance = null;
-        static string RtmLevel = "" ;
+        static string _rtmLevel = "" ;
         static readonly object Padlock = new object();
         public bool ShouldThisObserverTakeAction(LoggerObserver l)
         {
-            switch (RtmLevel)
+            switch (_rtmLevel)
             {
                 case "DEBUG":
                     return true;
@@ -26,7 +26,7 @@ namespace Common
         }
         public bool ShouldThisObserverTakeAction(EmailerObserver e)
         {
-            switch (RtmLevel)
+            switch (_rtmLevel)
             {
                 case "DEBUG":
                     return false;
@@ -41,7 +41,7 @@ namespace Common
         }
         public bool ShouldThisObserverTakeAction(ScreenPrinterObserver s)
         {
-            switch (RtmLevel)
+            switch (_rtmLevel)
             {
                 case "DEBUG":
                     return true;
@@ -62,7 +62,7 @@ namespace Common
                 {
                     if (_instance == null)
                     {
-                        RtmLevel = Convert.ToString(ConfigurationManager.AppSettings["RTMLevel"]);
+                        _rtmLevel = Convert.ToString(ConfigurationManager.AppSettings["RTMLevel"]);
                         _instance = new MaskSingleton();
                     }
                     return _instance;

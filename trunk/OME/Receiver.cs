@@ -48,7 +48,6 @@ namespace OME
 			    IPEndPoint mdpEndPoint = (IPEndPoint)endPoint;
 			    string mktPrice = Encoding.ASCII.GetString(receiveBuffer,0,bytesReceived);
 			    
-                //Console.WriteLine("Order Received : " + mktPrice );
                 rtm.SetMessage("Order Received : " + mktPrice);
                 rtm.Notify();
                 

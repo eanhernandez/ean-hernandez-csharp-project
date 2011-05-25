@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Common
 {
-    internal class BadData
+    [Serializable()]
+    public class BadOrderInput : System.Exception
     {
-    } ;
+        public BadOrderInput() : base() { }
+        public BadOrderInput(string message) : base(message) { }
+        public BadOrderInput(string message, System.Exception inner) : base(message, inner) { }
+    }
 }

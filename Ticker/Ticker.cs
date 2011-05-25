@@ -15,7 +15,7 @@ namespace Ticker
             // set up multicast 
             byte[] receiveBuffer = new byte[512];
             EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
-            Socket mdcSocket = CommsTools.setUpMcastListenSocket(Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
+            Socket mdcSocket = CommsTools.SetUpMcastListenSocket(Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
             Console.WriteLine("Ticker Service Started - (Listening Using MultiCast)");	
             while (true)
             {

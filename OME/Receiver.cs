@@ -62,10 +62,5 @@ namespace OME
             Console.WriteLine("received quit signal");
 			Console.ReadLine();
 		}
-
-		//public static void DisableMulticastLoopBack(Socket sockInstance)
-		//{
-		//	sockInstance.SetSocketOption(SocketOptionLevel.IP,SocketOptionName.MulticastLoopback,0);
-		//}
 	}
 }

@@ -39,8 +39,20 @@ namespace OME
             Socket tickerSocket = CommsTools.SetUpMCastSendSocket();
             IPEndPoint tickerEP = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
                 Convert.ToInt32(ConfigurationManager.AppSettings["ticker_broadcast_port"]));
-            CommsTools.SendMCastData(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP);
-
+            try
+            {
+                CommsTools.SendMCastData(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP);
+            }
+            catch (BadTickerInputException bte)
+            {
+                Console.WriteLine("boom");
+                Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
+                rtm.Attach(new LoggerObserver());
+                rtm.Attach(new ScreenPrinterObserver());
+                rtm.SetMessage(bte.Message);
+                rtm.Notify();
+            }
+            
         }
     }
 }

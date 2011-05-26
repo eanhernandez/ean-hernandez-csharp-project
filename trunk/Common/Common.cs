@@ -34,24 +34,20 @@ namespace Common
     }
     public static class Tools
     {
+        // checks that the CSV data is in the right format 
         public static void ValidateOrderRequest(string s)
         {
-            // MSFT,Regular,B,22.82,1
             string[] vals = s.Split(',');
 
-            if  (
+            if (
                 (Regex.IsMatch(vals[0], @"[^A-Z]"))             // symbol is not letters only
-            ||  (!vals[1].Equals("Regular"))                    // type is not "Regular"
-            ||  (Regex.IsMatch(vals[2], @"[^BS]"))              // order type is not B or S
-            ||  (!Regex.IsMatch(vals[3], @"^[0-9]*[.]?[0-9]+$"))// price is not a float
-            ||  (!Regex.IsMatch(vals[4], @"^[0-9]"))            // quantity is not numbers
+            || (!vals[1].Equals("Regular"))                    // type is not "Regular"
+            || (Regex.IsMatch(vals[2], @"[^BS]"))              // order type is not B or S
+            || (!Regex.IsMatch(vals[3], @"^[0-9]*[.]?[0-9]+$"))// price is not a float
+            || (!Regex.IsMatch(vals[4], @"^[0-9]"))            // quantity is not numbers
                 )
             {
                 throw new BadOrderInput();
-            }
-            else
-            {
-                Console.WriteLine("REGEX OK");
             }
         }
     }

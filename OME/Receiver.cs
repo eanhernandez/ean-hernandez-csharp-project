@@ -63,9 +63,9 @@ namespace OME
 			Console.ReadLine();
 		}
 
-		public static void DisableMulticastLoopBack(Socket sockInstance)
-		{
-			sockInstance.SetSocketOption(SocketOptionLevel.IP,SocketOptionName.MulticastLoopback,0);
-		}
+		//public static void DisableMulticastLoopBack(Socket sockInstance)
+		//{
+		//	sockInstance.SetSocketOption(SocketOptionLevel.IP,SocketOptionName.MulticastLoopback,0);
+		//}
 	}
 }

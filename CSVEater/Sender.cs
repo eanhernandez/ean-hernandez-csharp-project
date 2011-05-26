@@ -6,6 +6,7 @@ using System.IO;
 using System.Configuration;
 using Common;
 
+
 namespace CSVEater
 {
 	class MDP
@@ -14,8 +15,10 @@ namespace CSVEater
 		static void Main(string[] args)
 		{
             string line;
-            
-            // create a real time monitor, attach to logger, emailer, screen printer
+
+            // this implementation of the observer pattern creates a real time
+            // monitor, and attaches to logger,and screen printer concrete observers.  
+            // the emailer concrete observer is left out here.
             Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new ScreenPrinterObserver());
@@ -37,6 +40,8 @@ namespace CSVEater
             {
                 try
                 {
+                    // this method will throw the BadOrderInput exception if the 
+                    // order format doesn't match the required pattern
                     Common.Tools.ValidateOrderRequest(line);
                     rtm.SetMessage("sending: " + line.ToString()); 
                     CommsTools.SendMCastData(line.ToString(), mdpSocket, mcastEp);
@@ -49,6 +54,7 @@ namespace CSVEater
                 {
                     rtm.Notify();
                 }
+                // this just keeps the orders from all zipping by too fast to see
                 Thread.Sleep(Convert.ToInt32(ConfigurationManager.AppSettings["order_send_delay"]));
             }
 
@@ -56,7 +62,7 @@ namespace CSVEater
             CommsTools.SendMCastData("-1,-1,-1,-1,-1", mdpSocket, mcastEp);  // send quit signal
             Console.WriteLine("reached end of file, sent quit signal");
             mdpSocket.Close();
-            Console.ReadLine();
+		    Environment.Exit(0);
 		}
 	}
 }

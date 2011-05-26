@@ -4,17 +4,25 @@ namespace Common
 {
     [Serializable()]
     // an exception to handle bad input from the CSV
-    public class BadOrderInput : System.Exception
+    public abstract class TradingEngineException : System.Exception
     {
-        public BadOrderInput() : base() { }
+        protected TradingEngineException() : base() { }
+        protected TradingEngineException(string message) : base(message) { }
+        protected TradingEngineException(string message, System.Exception inner) : base(message, inner) { }
+    }
+    [Serializable()]
+    // an exception to handle bad input from the CSV
+    public class BadOrderInput : TradingEngineException
+    {
+        public BadOrderInput()  { }
         public BadOrderInput(string message) : base(message) { }
         public BadOrderInput(string message, System.Exception inner) : base(message, inner) { }
     }
     [Serializable()]
     // an exception to handle bad input from the OME
-    public class BadTickerInputException : System.Exception
+    public class BadTickerInputException : TradingEngineException
     {
-        public BadTickerInputException() : base() { }
+        public BadTickerInputException()  { }
         public BadTickerInputException(string message) : base(message) { }
         public BadTickerInputException(string message, System.Exception inner) : base(message, inner) { }
     }

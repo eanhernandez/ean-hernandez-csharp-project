@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OME.BizDomain" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAQAAAAAAAAAIAAAAEAAAAAEAAAABAAAA=</HashCode>
+      <FileName>BizDomain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OME.OrderProcessor" Collapsed="true">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAQAAgAAAAAAAAAAAQJAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OrderProcessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OME.MDC" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Receiver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OME.TickerHelper" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TickerHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EquityMatchingEngine.EquityMatchingLogic" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAEAAAAAAAAAAAAAAAABACAAAAAAAAAAA=</HashCode>
+      <FileName>EquityMatchingLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EquityMatchingEngine.EquityOrder" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EquityOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EquityMatchingEngine.PriceTimePriority" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>PriceTimePriority.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="OME.Storage.Container" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAABAAAABAAACAAAAAAAAAEAAAAAAAAAABAAAI=</HashCode>
+      <FileName>Storage\Container.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OME.Storage.ContainerCollection" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Storage\ContainerCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OME.Storage.LeafContainer" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABBBIAAACAAAAAAAAAAAAAIAAAAAAAAAI=</HashCode>
+      <FileName>Storage\LeafContainer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OME.Storage.Order" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgBCAQQAAAAAAAgAYgAIACAAAAACAAAAAgBAAAAA=</HashCode>
+      <FileName>Storage\Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OME.Storage.OrderBook" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAQAAAAAgAAgAAAAgAAAAIAAAiAAAABEAA=</HashCode>
+      <FileName>Storage\OrderBook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OME.Storage.OrderEventArgs" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAABAAAAAIAAAAAAAAAAAAAAAIAAAAAAQAAAAEA=</HashCode>
+      <FileName>Storage\OrderEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Delegate Name="OME.Storage.OrderEventHandler" Collapsed="true">
+    <Position X="6" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Storage\OrderBook.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

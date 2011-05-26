@@ -8,6 +8,18 @@ namespace Common
 {
     public static class CommsTools
     {
+        public static void sendOrderDataToOME(String s, Socket mdpSocket, IPEndPoint mcastEp)
+        {
+            if (!Tools.ValidateOrderRequest(s)) { Tools.ThrowBadOrderInputException(); }
+            else
+            { SendMCastData(s, mdpSocket, mcastEp); }
+        }
+        public static void SendTradeDataToTicker(String s, Socket mdpSocket, IPEndPoint mcastEp)
+        {
+            if (!Tools.ValidateTickerInput(s)){Tools.ThrowBadTickerInputException();}
+            else
+            {SendMCastData(s, mdpSocket, mcastEp);}
+        }
         public static void SendMCastData(String s, Socket mdpSocket, IPEndPoint mcastEp)
         {
             byte[] sendBuffer = new byte[512];
@@ -35,7 +47,7 @@ namespace Common
     public static class Tools
     {
         // checks that the CSV data is in the right format 
-        public static void ValidateOrderRequest(string s)
+        public static bool ValidateOrderRequest(string s)
         {
             string[] vals = s.Split(',');
 
@@ -47,9 +59,40 @@ namespace Common
             || (!Regex.IsMatch(vals[4], @"^[0-9]"))            // quantity is not numbers
                 )
             {
-                throw new BadOrderInput();
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
+        public static void ThrowBadOrderInputException()
+        {
+            throw new BadOrderInput("the order data read in from CSV was in the wrong format.");
+        }
+        public static bool ValidateTickerInput(string s)
+        {
+            string[] vals = s.Split(' ');
+            if ((Regex.IsMatch(vals[0], @"[^A-Z]")))// symbol is not letters only
+            {
+                return false;
+            }
+            vals = vals[1].Split('/');
+            if ((!Regex.IsMatch(vals[0], @"^[0-9]*[.]?[0-9]+$")) // top buy != float or -
+                && (!Regex.IsMatch(vals[0], @"[-]")))
+            {
+                return false;
+            }
+            if ((!Regex.IsMatch(vals[1], @"^[0-9]*[.]?[0-9]+$"))// top sell != float or -
+                && (!Regex.IsMatch(vals[1], @"[-]")))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static void ThrowBadTickerInputException()
+        {
+            throw new BadTickerInputException("the trade data passed to the ticker was in the wrong format.");
+        }
     }
-
 }

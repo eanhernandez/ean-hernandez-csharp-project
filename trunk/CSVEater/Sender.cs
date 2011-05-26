@@ -42,13 +42,12 @@ namespace CSVEater
                 {
                     // this method will throw the BadOrderInput exception if the 
                     // order format doesn't match the required pattern
-                    Common.Tools.ValidateOrderRequest(line);
                     rtm.SetMessage("sending: " + line.ToString()); 
-                    CommsTools.SendMCastData(line.ToString(), mdpSocket, mcastEp);
+                    CommsTools.sendOrderDataToOME(line.ToString(), mdpSocket, mcastEp);
                 }
                 catch (BadOrderInput e)
                 {
-                    rtm.SetMessage("bad order input, ignoring order: " + line.ToString());
+                    rtm.SetMessage(e.Message + line.ToString());
                 }
                 finally
                 {

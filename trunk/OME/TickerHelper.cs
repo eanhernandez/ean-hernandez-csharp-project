@@ -10,12 +10,14 @@ using System.Configuration;
 
 namespace OME
 {
-    class TickerHelper
+    class TickerHelper : DataGatherer
     {
-        public static void SendTickerData(OrderEventArgs e)
+        public TickerHelper() : base("TickerHelper")
+        {}
+        public  void SendTickerData(OrderEventArgs e)
         {
             double bestSellPrice = 0;
-            double BestBuyPrice = 0;
+            double bestBuyPrice = 0;
             string instrument = "";
             foreach (Order s in e.SellBook) 
             {
@@ -25,14 +27,14 @@ namespace OME
             }
             foreach (Order b in e.BuyBook) 
             {
-                BestBuyPrice = b.Price; 
+                bestBuyPrice = b.Price; 
                 instrument = b.Instrument;
                 break; 
             }
 
             string bestBuyString = "-";
             string bestSellString = "-";
-            if (BestBuyPrice != 0){ bestBuyString = BestBuyPrice.ToString(); }
+            if (bestBuyPrice != 0){ bestBuyString = bestBuyPrice.ToString(); }
             if (bestSellPrice != 0){ bestSellString = bestSellPrice.ToString(); }
 
             // set up multicast send for ticker
@@ -40,19 +42,15 @@ namespace OME
             IPEndPoint tickerEP = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
                 Convert.ToInt32(ConfigurationManager.AppSettings["ticker_broadcast_port"]));
             try
-            {
-                CommsTools.SendMCastData(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP);
+            { 
+                CommsTools.SendTradeDataToTicker(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP); ;
             }
             catch (BadTickerInputException bte)
             {
                 Console.WriteLine("boom");
-                Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
-                rtm.Attach(new LoggerObserver());
-                rtm.Attach(new ScreenPrinterObserver());
-                rtm.SetMessage(bte.Message);
-                rtm.Notify();
+                SetMessage(bte.Message);
+                Notify();
             }
-            
         }
     }
 }

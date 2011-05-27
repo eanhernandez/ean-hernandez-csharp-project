@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 
-namespace Common
+namespace Common.RTMObserver
 {
     public class LoggerObserver : IObserver // concrete observer
     {
@@ -13,7 +13,7 @@ namespace Common
         }
         public void Update(DataGatherer t)
         {
-            if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
+            if (MaskSingleton.MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
             {
                 StreamWriter w = File.AppendText(
                     Convert.ToString(ConfigurationManager.AppSettings["logfile"]) 

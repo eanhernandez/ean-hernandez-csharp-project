@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Mail;
-using MailMessage = System.Web.Mail.MailMessage;
 
-namespace Common
+namespace Common.RTMObserver
 {
     public class EmailerObserver : IObserver // concrete observer
     {
@@ -14,7 +12,7 @@ namespace Common
         }
         public void Update(DataGatherer t)
         {
-            if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
+            if (MaskSingleton.MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
             {
                 _message.Add(t.GetMessage() + " from " + t.Name);
                 if (_message.Count > 20)

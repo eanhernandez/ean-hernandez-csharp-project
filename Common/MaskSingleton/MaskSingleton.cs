@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Text;
+using Common.RTMObserver;
 
-namespace Common
+namespace Common.MaskSingleton
 {
     public sealed class MaskSingleton
     {

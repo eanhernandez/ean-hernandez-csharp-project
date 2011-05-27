@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Common.RTMObserver;
 using OME;
 using OME.Storage;
 using Common;

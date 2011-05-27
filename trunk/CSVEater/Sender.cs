@@ -5,6 +5,7 @@ using System.Threading;
 using System.IO;
 using System.Configuration;
 using Common;
+using Common.RTMObserver;
 
 namespace CSVEater
 {

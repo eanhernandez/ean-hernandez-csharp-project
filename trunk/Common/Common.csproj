@@ -43,15 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
-    <Compile Include="EmailerObserver.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="IObserver.cs" />
-    <Compile Include="MaskSingleton.cs" />
+    <Compile Include="MaskSingleton\MaskSingleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LoggerObserver.cs" />
-    <Compile Include="DataGatherer.cs" />
-    <Compile Include="RtmDataGatherer.cs" />
-    <Compile Include="ScreenPrinterObserver.cs" />
+    <Compile Include="RTMObserver\DataGatherer.cs" />
+    <Compile Include="RTMObserver\EmailerObserver.cs" />
+    <Compile Include="RTMObserver\IObserver.cs" />
+    <Compile Include="RTMObserver\LoggerObserver.cs" />
+    <Compile Include="RTMObserver\RtmDataGatherer.cs" />
+    <Compile Include="RTMObserver\ScreenPrinterObserver.cs" />
     <Compile Include="TraderOrderFactory\TraderOrderFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

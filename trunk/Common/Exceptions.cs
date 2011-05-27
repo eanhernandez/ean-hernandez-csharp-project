@@ -1,4 +1,6 @@
 ﻿using System;
+using Common.RTMObserver;
+
 namespace Common
 {
     [Serializable]

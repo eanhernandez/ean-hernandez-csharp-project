@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
 
-namespace Common
+namespace Common.RTMObserver
 {
     public class ScreenPrinterObserver : IObserver // concrete observer
     {
@@ -13,7 +10,7 @@ namespace Common
         }
         public void Update(DataGatherer t)
         {
-            if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
+            if (MaskSingleton.MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
             {
                 Console.WriteLine("(sp): " + t.GetMessage() + " from " + t.Name);
             }

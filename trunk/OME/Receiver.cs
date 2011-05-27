@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using Common;
 using System.Configuration;
+using Common.RTMObserver;
 
 namespace OME
 {
@@ -36,7 +37,7 @@ namespace OME
                 Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
 
             // using the observer pattern here to log what goes on in main
-            Common.RtmDataGatherer rtm = new RtmDataGatherer("OME Receiver RTM");
+            RtmDataGatherer rtm = new RtmDataGatherer("OME Receiver RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new EmailerObserver());
             rtm.Attach(new ScreenPrinterObserver());

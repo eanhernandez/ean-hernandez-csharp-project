@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using Common;
+using Common.TraderOrderFactory;
 
 namespace TraderTool
 {
@@ -12,18 +11,14 @@ namespace TraderTool
     {
         static void Main(string[] args)
         {
-            string symbol = "";
-            string purchaseType = "";
-            string buyorsell = "";
-            string price = "";
-            string quantity = "";
-            string order = "";
-
             Common.CommsTools.SetUpMCastSendSocket();
             Socket mdpSocket = CommsTools.SetUpMCastSendSocket();
             IPEndPoint mcastEp = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
                 Convert.ToInt32(ConfigurationManager.AppSettings["send_port"]));
-
+            TraderOrderCreator tocBuy = new TraderBuyOrderCreator();
+            TraderOrderCreator tocSell = new TraderSellOrderCreator();
+            TraderOrder to;
+            string order = "";
             Console.WriteLine("Trader Tool");
 
             while (true)
@@ -31,48 +26,56 @@ namespace TraderTool
                 Console.Write("hit enter to begin a trade.");
                 Console.ReadLine();
 
+                Console.Write("Buy or Sell [B|S]: ");
+                string buyorsell = Console.ReadLine();
+
+                if (buyorsell == "B")
+                {
+                    // using factory pattern to make orders
+                    to = tocBuy.MakeTradeOrder();
+                }
+                else if (buyorsell == "S")
+                {
+                    // using factory pattern to make orders
+                    to = tocSell.MakeTradeOrder();
+                }
+                else
+                {
+                    Console.WriteLine("must be B or S, hit enter to continue.");
+                    continue;
+                }
 
                 Console.Write("Symbol [MSFT]: ");
-                symbol = Console.ReadLine();
-                if (symbol == "")
-                {
-                    symbol = "MSFT";
-                    Console.WriteLine(symbol);
-                }
+                to.SetSymbol(Console.ReadLine(),"MSFT");
+                Console.WriteLine(to.GetSymbol());
 
                 Console.Write("purchase type [Regular]:");
-                purchaseType = Console.ReadLine();
-                if (purchaseType == "")
-                {
-                    purchaseType = "Regular";
-                    Console.WriteLine(purchaseType);
-                }
-
-                Console.Write("Buy or Sell [B|S]: ");
-                buyorsell = Console.ReadLine();
+                to.SetPurchaseType(Console.ReadLine(),"Regular");
+                Console.WriteLine(to.GetPurchaseType());
 
                 Console.Write("price: ");
-                price = Console.ReadLine();
+                to.SetPrice(Console.ReadLine());
 
                 Console.Write("quantity: ");
-                quantity = Console.ReadLine();
+                to.SetQuantity(Console.ReadLine());
 
-                order = symbol + "," + purchaseType + "," + buyorsell + "," + price + "," + quantity;
-
-                Console.WriteLine("your order: " + order);
+                Console.WriteLine("your order: " + to.GetOrderString());
                 Console.Write("OK? [Y|n]");
-                if (Console.ReadLine() == "")
+                string temp = Console.ReadLine();
+                
+                if (temp == "" || temp == "Y")
                 {
-                    if (Common.Tools.ValidateOrderRequest(order))
+                    try
                     {
-                        CommsTools.sendOrderDataToOME(order, mdpSocket, mcastEp);
+                        CommsTools.sendOrderDataToOME(to.GetOrderString(), mdpSocket, mcastEp);
                         Console.WriteLine("Order sent!");
                     }
-                    else
+                    catch (BadOrderInput e)
                     {
                         Console.WriteLine("bad input, no order sent.");
                     }
                 }
+                to = null;
                 Console.WriteLine("hit enter to continue.");
                 Console.ReadLine();
                 Console.Clear();

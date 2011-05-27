@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Common;
 using OME.Storage;
 
 namespace OME
@@ -41,8 +42,15 @@ namespace OME
 		//appropriate order processor. 
 		public void SubmitOrder(string procName,Order order)
 		{
-			OrderProcessor orderProcessor = oprocItems[procName] as OrderProcessor;
-			orderProcessor.EnQueue(order);
+            if (!Common.Tools.ValidateEquityOrder(order.GetEquityOrderString()))
+            {
+                throw new BadOrder();
+            }
+            else
+            {
+                OrderProcessor orderProcessor = oprocItems[procName] as OrderProcessor;
+                orderProcessor.EnQueue(order);
+            }
 		}
 			
 	}

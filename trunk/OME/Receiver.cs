@@ -15,6 +15,7 @@ namespace OME
             equityDomain = new OME.BizDomain("Equity Domain", new string[] { "MSFT" });
             equityDomain.OrderBook.OrderPriority = new EquityMatchingEngine.PriceTimePriority();
             EquityMatchingEngine.EquityMatchingLogic equityMatchingLogic = new EquityMatchingEngine.EquityMatchingLogic(equityDomain);
+
             // setting up equityMatchingLogic to use observer 
             equityMatchingLogic.Attach(new LoggerObserver());
             equityMatchingLogic.Attach(new EmailerObserver());
@@ -51,17 +52,25 @@ namespace OME
             {
 			    int bytesReceived = mdcSocket.ReceiveFrom(receiveBuffer,ref endPoint);
 			    IPEndPoint mdpEndPoint = (IPEndPoint)endPoint;
-			    string mktPrice = Encoding.ASCII.GetString(receiveBuffer,0,bytesReceived);
+			    string inboundOrderText = Encoding.ASCII.GetString(receiveBuffer,0,bytesReceived);
 			    
-                rtm.SetMessage("Order Received : " + mktPrice);
+                rtm.SetMessage("Order Received : " + inboundOrderText);
                 rtm.Notify();
                 
-                var array = mktPrice.Split(',');
+                var array = inboundOrderText.Split(',');
                 if (array[0] == "-1") { break; } // quit signal
-                
-                equityDomain.SubmitOrder("MSFT", new EquityMatchingEngine.EquityOrder(
-                    array[0], array[1], array[2], Convert.ToDouble(array[3]), 
-                    Convert.ToInt32(array[4])));
+
+                try
+                {
+                    equityDomain.SubmitOrder("MSFT", new EquityMatchingEngine.EquityOrder(
+                        array[0], array[1], array[2], Convert.ToDouble(array[3]),
+                        Convert.ToInt32(array[4])));
+                }
+                catch(BadOrder e)
+                {
+                    // nothing to do here, as this order will just be skipped,
+                    // and the exception will make the neccessary notifications.
+                }
             }
 			mdcSocket.Close();
             Console.WriteLine("received quit signal");

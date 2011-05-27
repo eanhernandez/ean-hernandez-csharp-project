@@ -74,6 +74,17 @@ namespace Common
                 return true;
             }
         }
+        public static bool ValidateEquityOrder(string s)
+        {
+            if (ValidateOrderRequest(s))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static void ThrowBadOrderInputException()
         {
             throw new BadOrderInput("the order data read in from CSV was in the wrong format.");

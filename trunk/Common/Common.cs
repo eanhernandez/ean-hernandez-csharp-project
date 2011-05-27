@@ -87,7 +87,7 @@ namespace Common
         }
         public static void ThrowBadOrderInputException()
         {
-            throw new BadOrderInput("the order data read in from CSV was in the wrong format.");
+            throw new BadOrderInput("the order data you tried to send to the OME was in the wrong format.");
         }
         public static bool ValidateTickerInput(string s)
         {

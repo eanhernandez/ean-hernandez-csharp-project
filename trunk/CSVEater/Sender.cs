@@ -19,7 +19,7 @@ namespace CSVEater
             // this implementation of the observer pattern creates a real time
             // monitor, and attaches to logger,and screen printer concrete observers.  
             // the emailer concrete observer is left out here.
-            Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
+            Common.RtmDataGatherer rtm = new RtmDataGatherer("CSV Eater RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new ScreenPrinterObserver());
             rtm.SetMessage("kicking off eater");

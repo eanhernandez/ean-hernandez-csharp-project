@@ -9,7 +9,7 @@ using System.Net;
 using System.Configuration;
 
 namespace OME
-{
+{ 
     class TickerHelper : DataGatherer
     {
         public TickerHelper() : base("TickerHelper")

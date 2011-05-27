@@ -13,7 +13,7 @@ namespace EquityMatchingEngine
 		{
 			//Hook up to active order event of the order book
 			bizDomain.OrderBook.OrderBeforeInsert +=new OrderEventHandler(OrderBook_OrderBeforeInsert);
-            rtm = new RtmDataGatherer("RTM");
+            rtm = new RtmDataGatherer("Equity Matching RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new EmailerObserver());
             rtm.Attach(new ScreenPrinterObserver());

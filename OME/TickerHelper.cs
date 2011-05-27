@@ -47,7 +47,6 @@ namespace OME
             }
             catch (BadTickerInputException bte)
             {
-                Console.WriteLine("boom");
                 SetMessage(bte.Message);
                 Notify();
             }

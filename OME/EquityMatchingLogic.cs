@@ -6,19 +6,13 @@ using System.Collections;
 
 namespace EquityMatchingEngine
 {
-	public class EquityMatchingLogic
+	public class EquityMatchingLogic : DataGatherer
 	{
-	    private Common.RtmDataGatherer rtm;
-		public EquityMatchingLogic(BizDomain bizDomain)
+		public EquityMatchingLogic(BizDomain bizDomain) : base("equity matching logic")
 		{
 			//Hook up to active order event of the order book
 			bizDomain.OrderBook.OrderBeforeInsert +=new OrderEventHandler(OrderBook_OrderBeforeInsert);
-            rtm = new RtmDataGatherer("Equity Matching RTM");
-            rtm.Attach(new LoggerObserver());
-            rtm.Attach(new EmailerObserver());
-            rtm.Attach(new ScreenPrinterObserver());
 		}
-
 		private void OrderBook_OrderBeforeInsert(object sender, OrderEventArgs e)
 		{
 			//Check buy/sell leg of the order
@@ -31,47 +25,28 @@ namespace EquityMatchingEngine
 
 
 		}
-
 		private void MatchBuyLogic(OrderEventArgs e)
 		{
-			//since the order to be matched is a buy order
-			//therefore start iterating orders in sell order book
 			foreach(Order curOrder in e.SellBook)
 			{
-				//If the current price of sell order price is less 
-				//than the price of buy order then it is a best match
 				if ( curOrder.Price <= e.Order.Price && e.Order.Quantity > 0 )
 				{
 					//Generate Trade
 
-					//get the buy order quantity
 					int quantity = e.Order.Quantity;
-
-                    // (eh) track shares exchanged in each trade
-                    int original_buy_quantity = e.Order.Quantity;
-                    int original_sell_quantity = curOrder.Quantity;
-
-					//subtract the buy order quantity from current sell order quantity
+                    int originalBuyQuantity = e.Order.Quantity;
+                    int originalSellQuantity = curOrder.Quantity;
 					curOrder.Quantity = curOrder.Quantity - e.Order.Quantity;
+                    e.Order.Quantity = originalBuyQuantity - originalSellQuantity;
+                    int sold_last_trade = originalBuyQuantity - e.Order.Quantity;
 
-                    // (eh) this should upate the order quantity correctly
-                    e.Order.Quantity = original_buy_quantity - original_sell_quantity;
-
-                    // (eh) to track shares exchanged in each trade
-                    int sold_last_trade = original_buy_quantity - e.Order.Quantity;
-
-
-                    rtm.SetMessage("Match Buy found..Generate Trade:" +
+                    SetMessage("Match Buy found..Generate Trade:" +
                     " buy " +
                     curOrder.Instrument + " " +
                     sold_last_trade + " @" +
                     //e.Order.Price
                     curOrder.Price);
-                    rtm.Notify();
-
-                    //assign the remaining quantity to buy order
-                    
-
+                    Notify();
                 }
 				else
 				{
@@ -79,51 +54,28 @@ namespace EquityMatchingEngine
 				}
 			}
 		}
-
 		private void MatchSellLogic(OrderEventArgs e)
 		{
-			//since the order to be matched is a sell order
-			//therefore start iterating orders in buy order book
 			foreach(Order curOrder in e.BuyBook)
 			{
-				//If the current price of buy order is greater 
-				//than the price of sell order then it is a best match 
 				if ( curOrder.Price >= e.Order.Price && e.Order.Quantity > 0 )
 				{
-					//Generate Trade
-                   //get the sell order quantity
 					int quantity = curOrder.Quantity;
 
-                    // (eh) to track shares exchanged in each trade
-                    int original_buy_quantity = curOrder.Quantity;
-                    int original_sell_quantity = e.Order.Quantity;
+                    int originalBuyQuantity = curOrder.Quantity;
+                    int originalSellQuantity = e.Order.Quantity;
 
-                    //subtract the sell order quantity from current buy order quantity
 					curOrder.Quantity = curOrder.Quantity - e.Order.Quantity;
+                    e.Order.Quantity = originalSellQuantity - originalBuyQuantity;
+                    int sold_last_trade = originalSellQuantity - e.Order.Quantity;
 
-                    // (eh) this should update it correctly
-                    e.Order.Quantity = original_sell_quantity - original_buy_quantity;
-
-                    // (eh) to track shares exchanged in each trade
-                    int sold_last_trade = original_sell_quantity - e.Order.Quantity;
-
-                    // (eh) to show trades as they occur
-                    //Console.WriteLine("Match Sell found..Generate Trade:" +
-                    //" sold " +
-                    //curOrder.Instrument + " " +
-                    //sold_last_trade + " @" +
-                    //e.Order.Price
-                    //curOrder.Price
-                    //);
-
-                    rtm.SetMessage("Match Sell found..Generate Trade:" +
+                    SetMessage("Match Sell found..Generate Trade:" +
                     " sold " +
                     curOrder.Instrument + " " +
                     sold_last_trade + " @" +
                     curOrder.Price
                         );
-                    rtm.Notify();
-                
+                    Notify();
                 }
 				else
 				{

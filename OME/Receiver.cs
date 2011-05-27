@@ -15,6 +15,11 @@ namespace OME
             equityDomain = new OME.BizDomain("Equity Domain", new string[] { "MSFT" });
             equityDomain.OrderBook.OrderPriority = new EquityMatchingEngine.PriceTimePriority();
             EquityMatchingEngine.EquityMatchingLogic equityMatchingLogic = new EquityMatchingEngine.EquityMatchingLogic(equityDomain);
+            // setting up equityMatchingLogic to use observer 
+            equityMatchingLogic.Attach(new LoggerObserver());
+            equityMatchingLogic.Attach(new EmailerObserver());
+            equityMatchingLogic.Attach(new ScreenPrinterObserver());
+
             return equityDomain;
         }
         
@@ -29,7 +34,8 @@ namespace OME
             Socket mdcSocket = CommsTools.SetUpMcastListenSocket(
                 Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
 
-            Common.RtmDataGatherer rtm = new RtmDataGatherer("OME RTM");
+            // using the observer pattern here to log what goes on in main
+            Common.RtmDataGatherer rtm = new RtmDataGatherer("OME Receiver RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new EmailerObserver());
             rtm.Attach(new ScreenPrinterObserver());
@@ -39,7 +45,7 @@ namespace OME
             // set up OME
             OME.BizDomain equityDomain = setUpEquityDomain();
             equityDomain.Start();
-
+            
             // loop until we get a quit signal
 			while (true)
             {
@@ -57,7 +63,6 @@ namespace OME
                     array[0], array[1], array[2], Convert.ToDouble(array[3]), 
                     Convert.ToInt32(array[4])));
             }
-
 			mdcSocket.Close();
             Console.WriteLine("received quit signal");
 			Console.ReadLine();

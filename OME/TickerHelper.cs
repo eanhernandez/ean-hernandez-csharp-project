@@ -43,12 +43,11 @@ namespace OME
                 Convert.ToInt32(ConfigurationManager.AppSettings["ticker_broadcast_port"]));
             try
             { 
-                CommsTools.SendTradeDataToTicker(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP); ;
+                CommsTools.SendTradeDataToTicker(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP);
             }
-            catch (BadTickerInputException bte)
+            catch (BadTickerInput bte)
             {
-                SetMessage(bte.Message);
-                Notify();
+                // not neccessary to do anything, just let next order go to ticker
             }
         }
     }

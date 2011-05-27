@@ -6,7 +6,6 @@ using System.IO;
 using System.Configuration;
 using Common;
 
-
 namespace CSVEater
 {
 	class MDP
@@ -42,17 +41,16 @@ namespace CSVEater
                 {
                     // this method will throw the BadOrderInput exception if the 
                     // order format doesn't match the required pattern
-                    rtm.SetMessage("sending: " + line.ToString()); 
                     CommsTools.sendOrderDataToOME(line.ToString(), mdpSocket, mcastEp);
+                    rtm.SetMessage("sending: " + line.ToString());
+                    rtm.Notify();
                 }
                 catch (BadOrderInput e)
                 {
-                    rtm.SetMessage(e.Message + line.ToString());
+                    // simply skipping and going on to the next CSV line, the exception
+                    // itself logs the error
                 }
-                finally
-                {
-                    rtm.Notify();
-                }
+
                 // this just keeps the orders from all zipping by too fast to see
                 Thread.Sleep(Convert.ToInt32(ConfigurationManager.AppSettings["order_send_delay"]));
             }

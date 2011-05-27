@@ -1,28 +1,41 @@
 ﻿using System;
 namespace Common
 {
-    [Serializable()]
+    [Serializable]
     // an exception to handle bad input from the CSV
-    public abstract class TradingEngineException : System.Exception
+    public abstract class TradingEngineException : Exception
     {
-        protected TradingEngineException() : base() { }
-        protected TradingEngineException(string message) : base(message) { }
-        protected TradingEngineException(string message, System.Exception inner) : base(message, inner) { }
+        protected TradingEngineException() 
+        {
+            DoNotifications();
+        }
+        protected TradingEngineException(string message) : base(message) { DoNotifications(); }
+        protected TradingEngineException(string message, Exception inner) : base(message, inner) { DoNotifications(); }
+
+        private void DoNotifications()
+        {
+            RtmDataGatherer rtm = new RtmDataGatherer("Error Handler");
+            rtm.Attach(new LoggerObserver());
+            rtm.Attach(new ScreenPrinterObserver());
+            rtm.Attach(new EmailerObserver());
+            rtm.SetMessage(Message);
+            rtm.Notify();
+        }
     }
-    [Serializable()]
+    [Serializable]
     // an exception to handle bad input from the CSV
     public class BadOrderInput : TradingEngineException
     {
         public BadOrderInput()  { }
         public BadOrderInput(string message) : base(message) { }
-        public BadOrderInput(string message, System.Exception inner) : base(message, inner) { }
+        public BadOrderInput(string message, Exception inner) : base(message, inner) { }
     }
-    [Serializable()]
+    [Serializable]
     // an exception to handle bad input from the OME
-    public class BadTickerInputException : TradingEngineException
+    public class BadTickerInput : TradingEngineException
     {
-        public BadTickerInputException()  { }
-        public BadTickerInputException(string message) : base(message) { }
-        public BadTickerInputException(string message, System.Exception inner) : base(message, inner) { }
+        public BadTickerInput()  { }
+        public BadTickerInput(string message) : base(message) { }
+        public BadTickerInput(string message, Exception inner) : base(message, inner) { }
     }
 }

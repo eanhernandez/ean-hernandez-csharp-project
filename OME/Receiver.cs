@@ -29,7 +29,7 @@ namespace OME
             Socket mdcSocket = CommsTools.SetUpMcastListenSocket(
                 Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
 
-            Common.RtmDataGatherer rtm = new RtmDataGatherer("RTM");
+            Common.RtmDataGatherer rtm = new RtmDataGatherer("OME RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new EmailerObserver());
             rtm.Attach(new ScreenPrinterObserver());

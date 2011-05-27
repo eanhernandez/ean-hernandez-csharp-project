@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace Common
 {
     [Serializable()]
@@ -26,6 +25,4 @@ namespace Common
         public BadTickerInputException(string message) : base(message) { }
         public BadTickerInputException(string message, System.Exception inner) : base(message, inner) { }
     }
-
-
 }

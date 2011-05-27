@@ -7,6 +7,8 @@ using System.Collections;
 
 namespace EquityMatchingEngine
 {
+    // this class extends the abstract subject DataGatherer, so it can just call setMessage()
+    // and Notify(), and the Observer pattern takes care of the rest.
 	public class EquityMatchingLogic : DataGatherer
 	{
 		public EquityMatchingLogic(BizDomain bizDomain) : base("equity matching logic")

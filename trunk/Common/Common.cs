@@ -4,22 +4,26 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text.RegularExpressions;
 
+// common functions used across the framework
 namespace Common
 {
     public static class CommsTools
     {
+        // wraps SendMCastData() for comms with the OME
         public static void sendOrderDataToOME(String s, Socket mdpSocket, IPEndPoint mcastEp)
         {
             if (!Tools.ValidateOrderRequest(s)) { Tools.ThrowBadOrderInputException(); }
             else
             { SendMCastData(s, mdpSocket, mcastEp); }
         }
+        // wraps SendMCastData() for comms with the Ticker
         public static void SendTradeDataToTicker(String s, Socket mdpSocket, IPEndPoint mcastEp)
         {
             if (!Tools.ValidateTickerInput(s)){Tools.ThrowBadTickerInputException();}
             else
             {SendMCastData(s, mdpSocket, mcastEp);}
         }
+        // sends data to a socket via multicast
         public static void SendMCastData(String s, Socket mdpSocket, IPEndPoint mcastEp)
         {
             byte[] sendBuffer = new byte[512];
@@ -34,12 +38,14 @@ namespace Common
             }
             
         }
+        // sets up a send socket for the SendMCastData() method
         public static Socket SetUpMCastSendSocket()
         {
             Socket mdpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             mdpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 3);
             return mdpSocket;
         }
+        // sets up a socket to listen for multicast data
         public static Socket SetUpMcastListenSocket(int port)
         {
             IPHostEntry entry = Dns.GetHostByName(Dns.GetHostName());
@@ -74,6 +80,7 @@ namespace Common
                 return true;
             }
         }
+        // checks that the data arriving at the OME is in the right format
         public static bool ValidateEquityOrder(string s)
         {
             if (ValidateOrderRequest(s))
@@ -85,10 +92,12 @@ namespace Common
                 return false;
             }
         }
+        // helper for throwing errors
         public static void ThrowBadOrderInputException()
         {
             throw new BadOrderInput("the order data you tried to send to the OME was in the wrong format.");
         }
+        // checks that data sent to the ticker is in the right format
         public static bool ValidateTickerInput(string s)
         {
             string[] vals = s.Split(' ');
@@ -109,10 +118,12 @@ namespace Common
             }
             return true;
         }
+        // helper for throwing errors
         public static void ThrowBadTickerInputException()
         {
             throw new BadTickerInput("the trade data passed to the ticker was in the wrong format.");
         }
+        // helper for throwing errors
         public static void ThrowCommsException(string s)
         {
             throw new CommsException(s);

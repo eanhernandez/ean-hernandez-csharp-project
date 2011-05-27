@@ -4,7 +4,9 @@ using Common.RTMObserver;
 namespace Common
 {
     [Serializable]
-    // an exception to handle bad input from the CSV
+    //  An exception to provide base functionality to all framework exceptions/
+    //  This also handles invoking the RTM system, bridging the gap between
+    //  errors and exceptions.
     public abstract class TradingEngineException : Exception
     {
         protected TradingEngineException() 
@@ -40,7 +42,7 @@ namespace Common
         public BadTickerInput(string message, Exception inner) : base(message, inner) { }
     }
     [Serializable]
-    // an exception to handle bad input from the OME
+    // an exception to handle comms failures
     public class CommsException : TradingEngineException
     {
         public CommsException() { }

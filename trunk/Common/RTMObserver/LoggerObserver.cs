@@ -5,6 +5,8 @@ using System.IO;
 
 namespace Common.RTMObserver
 {
+    // this concrete observer provides the RTM system with a means to log data to an
+    // log file and send it out.   
     public class LoggerObserver : IObserver // concrete observer
     {
         public LoggerObserver()

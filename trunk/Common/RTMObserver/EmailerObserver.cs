@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 namespace Common.RTMObserver
 {
-    public class EmailerObserver : IObserver // concrete observer
+    // this concrete observer provides the RTM system with a means to log data to an
+    // email and send it out.  Data is aggregated and then send once a threshold of new
+    // data is accumulated.  The actually emailing is disabled due to issues connecting
+    // to the university's smtp server.  
+    public class EmailerObserver : IObserver 
     {
         public EmailerObserver()
         {

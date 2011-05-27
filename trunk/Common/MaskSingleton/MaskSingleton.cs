@@ -2,6 +2,9 @@
 using System.Configuration;
 using Common.RTMObserver;
 
+// this class helps the real time monitoring system determine whether or not
+// it should log a given message, based on the application's log level.  It's 
+// a singleton because the data is static and all apps can just read from it.
 namespace Common.MaskSingleton
 {
     public sealed class MaskSingleton

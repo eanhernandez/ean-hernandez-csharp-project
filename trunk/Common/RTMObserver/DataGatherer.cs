@@ -2,7 +2,9 @@
 
 namespace Common.RTMObserver
 {
-    public abstract class DataGatherer // abstract subject
+    // this class is the abstract subject for the observer pattern used by the RTM
+    // subsystem.
+    public abstract class DataGatherer 
     {
         public DataGatherer(string name)
         {

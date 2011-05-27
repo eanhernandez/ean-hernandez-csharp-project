@@ -1,4 +1,5 @@
-﻿namespace Common.TraderOrderFactory                             // fun with the factory pattern
+﻿// this factory pattern allows the creation of orders for the trader interface
+namespace Common.TraderOrderFactory                             
 {
     public abstract class TraderOrderCreator                    // abstract creator
     {

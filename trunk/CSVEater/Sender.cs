@@ -23,6 +23,7 @@ namespace CSVEater
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new ScreenPrinterObserver());
 
+            // setting up to send multicast
             Socket mdpSocket = CommsTools.SetUpMCastSendSocket();
             IPEndPoint mcastEp = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
                 Convert.ToInt32(ConfigurationManager.AppSettings["send_port"]));
@@ -30,6 +31,7 @@ namespace CSVEater
             Console.WriteLine("CSV Eater Service Started - (Sending Using MultiCast)");
             Thread.Sleep(3000);  // relax a moment while the receiver starts up
             
+            // read from the csv
             var stream = File.OpenRead(
                 ConfigurationManager.AppSettings["csvpath"]);
             var streamReader = new StreamReader(stream);

@@ -10,8 +10,10 @@ using System.Net;
 using System.Configuration;
 
 namespace OME
-{ 
-    class TickerHelper : DataGatherer
+{   
+    // this class extends the abstract subject DataGatherer, so it can just call setMessage()
+    // and Notify(), and the Observer pattern takes care of the rest.
+     class TickerHelper : DataGatherer
     {
         public TickerHelper() : base("TickerHelper")
         {}
@@ -43,12 +45,14 @@ namespace OME
             IPEndPoint tickerEP = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
                 Convert.ToInt32(ConfigurationManager.AppSettings["ticker_broadcast_port"]));
             try
-            { 
+            {
                 CommsTools.SendTradeDataToTicker(instrument + " " + bestBuyString + "/" + bestSellString, tickerSocket, tickerEP);
+                SetMessage("sending to ticker: " + instrument + " " + bestBuyString + "/" + bestSellString);
+                Notify();
             }
             catch (BadTickerInput bte)
             {
-                // not neccessary to do anything, just let next order go to ticker
+                // not necessary to do anything, just let next order go to ticker
             }
         }
     }

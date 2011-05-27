@@ -92,7 +92,7 @@ namespace Common
         }
         public static void ThrowBadTickerInputException()
         {
-            throw new BadTickerInputException("the trade data passed to the ticker was in the wrong format.");
+            throw new BadTickerInput("the trade data passed to the ticker was in the wrong format.");
         }
     }
 }

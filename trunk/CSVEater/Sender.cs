@@ -18,11 +18,9 @@ namespace CSVEater
             // this implementation of the observer pattern creates a real time
             // monitor, and attaches to logger,and screen printer concrete observers.  
             // the emailer concrete observer is left out here.
-            Common.RtmDataGatherer rtm = new RtmDataGatherer("CSV Eater RTM");
+            RtmDataGatherer rtm = new RtmDataGatherer("CSV Eater RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new ScreenPrinterObserver());
-            rtm.SetMessage("kicking off eater");
-            rtm.Notify();
 
             Socket mdpSocket = CommsTools.SetUpMCastSendSocket();
             IPEndPoint mcastEp = new IPEndPoint(IPAddress.Parse("224.5.6.7"),
@@ -31,8 +29,8 @@ namespace CSVEater
             Console.WriteLine("CSV Eater Service Started - (Sending Using MultiCast)");
             Thread.Sleep(3000);  // relax a moment while the receiver starts up
             
-            var stream = System.IO.File.OpenRead(
-                ConfigurationManager.AppSettings["csvpath"].ToString());
+            var stream = File.OpenRead(
+                ConfigurationManager.AppSettings["csvpath"]);
             var streamReader = new StreamReader(stream);
             
             while ((line = streamReader.ReadLine()) != null)
@@ -41,8 +39,8 @@ namespace CSVEater
                 {
                     // this method will throw the BadOrderInput exception if the 
                     // order format doesn't match the required pattern
-                    CommsTools.sendOrderDataToOME(line.ToString(), mdpSocket, mcastEp);
-                    rtm.SetMessage("sending: " + line.ToString());
+                    CommsTools.sendOrderDataToOME(line, mdpSocket, mcastEp);
+                    rtm.SetMessage("sending: " + line);
                     rtm.Notify();
                 }
                 catch (BadOrderInput e)

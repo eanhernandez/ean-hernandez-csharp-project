@@ -24,7 +24,15 @@ namespace Common
         {
             byte[] sendBuffer = new byte[512];
             sendBuffer = Encoding.ASCII.GetBytes(s);
-            mdpSocket.SendTo(sendBuffer, mcastEp);
+            try
+            {
+                mdpSocket.SendTo(sendBuffer, mcastEp);
+            }
+            catch (SocketException e)
+            {
+                Tools.ThrowCommsException("socket exception trying to send CVS data to OME. " + e.Message);
+            }
+            
         }
         public static Socket SetUpMCastSendSocket()
         {
@@ -93,6 +101,10 @@ namespace Common
         public static void ThrowBadTickerInputException()
         {
             throw new BadTickerInput("the trade data passed to the ticker was in the wrong format.");
+        }
+        public static void ThrowCommsException(string s)
+        {
+            throw new CommsException(s);
         }
     }
 }

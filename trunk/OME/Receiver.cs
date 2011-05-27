@@ -39,7 +39,7 @@ namespace OME
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new EmailerObserver());
             rtm.Attach(new ScreenPrinterObserver());
-            rtm.SetMessage("kicking off OME");
+
             rtm.Notify();   
 
             // set up OME

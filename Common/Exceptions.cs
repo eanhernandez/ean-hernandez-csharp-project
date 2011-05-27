@@ -45,4 +45,10 @@ namespace Common
         public CommsException(string message) : base(message) { }
         public CommsException(string message, Exception inner) : base(message, inner) { }
     }
+    public class BadOrder : TradingEngineException
+    {
+        public BadOrder() { }
+        public BadOrder(string message) : base(message) { }
+        public BadOrder(string message, Exception inner) : base(message, inner) { }
+    }
 }

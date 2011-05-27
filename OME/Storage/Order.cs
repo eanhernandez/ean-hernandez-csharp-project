@@ -66,5 +66,19 @@ namespace OME.Storage
 			get	{return orderId;}
 			set{orderId=value;}
 		}
+        public string GetEquityOrderString()
+        {
+            string s = this.Instrument;
+            s += ",";
+            s += this.OrderType;
+            s += ",";
+            s += this.BuySell;
+            s += ",";
+            s += this.Price;
+            s += ",";
+            s += this.Quantity;
+
+            return s;
+        }
 	}
 }

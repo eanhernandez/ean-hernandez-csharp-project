@@ -14,7 +14,6 @@ namespace Common
         public void Update(DataGatherer t)
         {
             if (MaskSingleton.Instance.ShouldThisObserverTakeAction(this))
-                Console.WriteLine("trying to log in: " + Convert.ToString(ConfigurationManager.AppSettings["logfile"]) + Process.GetCurrentProcess().ProcessName);
             {
                 StreamWriter w = File.AppendText(
                     Convert.ToString(ConfigurationManager.AppSettings["logfile"]) 

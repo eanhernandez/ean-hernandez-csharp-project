@@ -11,7 +11,6 @@ namespace OME
 		Thread msgDispatcher;
 		ManualResetEvent processSignaller;
 		BizDomain bizDomain;
-		
 		public OrderProcessor(BizDomain domain,string wspName)
 		{
 			//Domain under which this order processor is assigned
@@ -27,14 +26,12 @@ namespace OME
 			//start the processing
 			msgDispatcher.Start();
 		}
-
 		public void EnQueue(object newOrder)
 		{
 			//Enqueue the order and signal the event object
 			msgQueue.Enqueue(newOrder);
 			processSignaller.Set();
 		}
-
 		private void ProcessQueue()
 		{
 			//start of order draining process

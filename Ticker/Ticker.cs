@@ -18,6 +18,8 @@ namespace Ticker
             EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
             Socket mdcSocket = CommsTools.SetUpMcastListenSocket(Convert.ToInt32(ConfigurationManager.AppSettings["receive_port"]));
             Console.WriteLine("Ticker Service Started - (Listening Using MultiCast)");
+            
+            // using the rtm system
             RtmDataGatherer rtm = new RtmDataGatherer("Ticker RTM");
             rtm.Attach(new LoggerObserver());
             rtm.Attach(new ScreenPrinterObserver());
@@ -27,7 +29,8 @@ namespace Ticker
                 int bytesReceived = mdcSocket.ReceiveFrom(receiveBuffer, ref endPoint);
                 IPEndPoint mdpEndPoint = (IPEndPoint)endPoint;
                 string s = Encoding.ASCII.GetString(receiveBuffer, 0, bytesReceived);
-               
+
+                // using the rtm system
                 rtm.SetMessage(s);
                 rtm.Notify();
             }

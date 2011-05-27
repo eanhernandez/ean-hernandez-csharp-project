@@ -9,6 +9,7 @@ namespace TraderTool
 {
     class TraderTool
     {
+        // this code uses the factory pattern to create new orders for sending on the the OME.
         static void Main(string[] args)
         {
             Common.CommsTools.SetUpMCastSendSocket();

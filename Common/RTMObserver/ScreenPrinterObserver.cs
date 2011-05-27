@@ -2,6 +2,9 @@
 
 namespace Common.RTMObserver
 {
+    // this concrete observer provides the RTM system with a means to log data to 
+    // the screen.
+
     public class ScreenPrinterObserver : IObserver // concrete observer
     {
         public ScreenPrinterObserver()
